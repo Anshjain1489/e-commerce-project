@@ -1,0 +1,6 @@
+{
+  "name": "Majanya Ji Ethnic Wear",
+  "description": "Premium Indian Men's Ethnic Wear Store featuring Kurta Pajama, Jacket Sets, Indo Western, and Open Jodhpuri royal outfits.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

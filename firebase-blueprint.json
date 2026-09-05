@@ -1,0 +1,154 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile with role-based access",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "product": {
+      "title": "Product",
+      "description": "Ethnic wear product",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 150 },
+        "slug": { "type": "string", "maxLength": 150 },
+        "categoryId": { "type": "string", "maxLength": 64 },
+        "categoryName": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "discount": { "type": "number" },
+        "fabric": { "type": "string", "maxLength": 150 },
+        "stock": { "type": "number" },
+        "featured": { "type": "boolean" },
+        "bestseller": { "type": "boolean" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "number" }
+      },
+      "required": ["id", "name", "price", "categoryId"]
+    },
+    "category": {
+      "title": "Category",
+      "description": "Product collection category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "slug": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
+        "image": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "name", "slug"]
+    },
+    "order": {
+      "title": "Order",
+      "description": "Customer purchase order",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "subtotal": { "type": "number" },
+        "shippingCharge": { "type": "number" },
+        "discount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "maxLength": 50 },
+        "paymentStatus": { "type": "string", "maxLength": 50 },
+        "orderStatus": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["orderId", "customerName", "totalAmount", "orderStatus"]
+    },
+    "contactMessage": {
+      "title": "ContactMessage",
+      "description": "Customer inquiry message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "format": "email", "maxLength": 120 },
+        "message": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string" },
+        "isRead": { "type": "boolean" }
+      },
+      "required": ["id", "name", "message"]
+    },
+    "newsletterSubscriber": {
+      "title": "NewsletterSubscriber",
+      "description": "Newsletter email subscriber",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "maxLength": 120 },
+        "subscribedAt": { "type": "string" }
+      },
+      "required": ["email"]
+    },
+    "review": {
+      "title": "Review",
+      "description": "Customer product reviews and ratings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "productId": { "type": "string", "maxLength": 64 },
+        "productName": { "type": "string", "maxLength": 150 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerEmail": { "type": "string", "format": "email", "maxLength": 120 },
+        "city": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number" },
+        "title": { "type": "string", "maxLength": 200 },
+        "comment": { "type": "string", "maxLength": 2000 },
+        "date": { "type": "string" },
+        "verifiedPurchase": { "type": "boolean" },
+        "fitFeedback": { "type": "string", "enum": ["Runs Small", "True to Size", "Runs Large"] },
+        "helpfulCount": { "type": "number" },
+        "orderId": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "productId", "customerName", "rating", "comment"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/user" },
+      "description": "User profiles with role separation"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/product" },
+      "description": "Store products collection"
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/category" },
+      "description": "Product categories"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/order" },
+      "description": "Orders collection"
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/review" },
+      "description": "Product reviews and ratings"
+    },
+    "/contactMessages/{messageId}": {
+      "schema": { "$ref": "#/entities/contactMessage" },
+      "description": "Customer contact messages"
+    },
+    "/newsletterSubscribers/{subscriberId}": {
+      "schema": { "$ref": "#/entities/newsletterSubscriber" },
+      "description": "Subscribed newsletter emails"
+    }
+  }
+}
